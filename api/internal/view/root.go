@@ -13,16 +13,19 @@ type ResponseJSON struct {
 	Data       interface{} `json:"data,omitempty"`
 }
 
-func prepareJSON(w http.ResponseWriter, statusCode uint16) {
+// PrepareJSON Adds the headers.
+func PrepareJSON(w http.ResponseWriter, statusCode uint16) {
 	w.Header().Add("content-type", "application/json")
 	w.WriteHeader(int(statusCode))
 }
 
-func formatJSON(data interface{}, message string, statusCode uint16) ResponseJSON {
+// FormatJSON Formats the response in the Koffee server standard
+func FormatJSON(data interface{}, message string, statusCode uint16) ResponseJSON {
 	return ResponseJSON{Message: message, Data: data, StatusCode: statusCode}
 }
 
-func returnJSON(w http.ResponseWriter, data interface{}) {
+// ReturnJSON Returns JSON
+func ReturnJSON(w http.ResponseWriter, data interface{}) {
 	notok := json.NewEncoder(w).Encode(data)
 	if notok != nil {
 		w.WriteHeader(http.StatusInternalServerError)
